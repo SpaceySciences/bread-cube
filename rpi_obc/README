@@ -1,0 +1,1 @@
+This is to store the code of the Raspberry Pi, which is acting as the On-Board Computer. It will communicate with the Transceiver and the Camera (N1CU) through both I2C (commands) and SPI (data), and will communicate with the ADCS, GPS, and EPS throuh I2C.
