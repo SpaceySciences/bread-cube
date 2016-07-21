@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     if (trxIsReceiving()) {
       printf("Yes incoming transmission\n");
       sleep(1);
-      //printf("Incoming data size is: %d\n", (int)getDataSize());
+      printf("Incoming data size is: %d bytes\n", (int)getDataSize());
     } else {
       printf("No incoming transmission\n");
     } //if-else
@@ -34,7 +34,7 @@ void connect() {
     exit(1);
   }
  
-  printf("I2C: acquiring buss to 0x%x\n", TRX_ADDR);
+  printf("I2C: acquiring bus to 0x%x\n", TRX_ADDR);
  
   if (ioctl(file, I2C_SLAVE, TRX_ADDR) < 0) {
     fprintf(stderr, "I2C: Failed to acquire bus access/talk to slave 0x%x\n", TRX_ADDR);
@@ -57,13 +57,17 @@ int getDataSize() {
 int sendCommand(int val) {
   unsigned char cmd[16];
   cmd[0] = val;
+  //int write(  int  handle,  void  *buffer,  int  nbyte );
+  //returns # bytes read
   if ( write(file, cmd, 1) == 1 ) {
     usleep(10000); //needed when communicating with microcontroller
     val = 0;
-    char buf[1];
+    unsigned char buf[1];
+
+    //int  read(  int  handle,  void  *buffer,  int  nbyte );
+    //returns # bytes read
     if ( read(file, buf, 1) == 1 ) {
       val = buf[0];
-      printf("Received %d\n", (int)val);
     } //if
   } //if
   

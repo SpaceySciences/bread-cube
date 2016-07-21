@@ -9,7 +9,7 @@
 #include <unistd.h>
  
 // The PiWeather board i2c address
-#define TRX_ADDR 0x08
+#define TRX_ADDR 0x04
  
 // The I2C bus: This is for V2 pi's. For V1 Model B you need i2c-0
 static const char *devName = "/dev/i2c-1";
