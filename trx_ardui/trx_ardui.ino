@@ -74,14 +74,4 @@ void handleRequest() {
 // Get the internal temperature of the arduino
 double GetTemp(void) {
   return 20 + (rand() % 40);
-// unsigned int wADC;
-// double t;
-// ADMUX = (_BV(REFS1) | _BV(REFS0) | _BV(MUX3));
-// ADCSRA |= _BV(ADEN); // enable the ADC
-// delay(20); // wait for voltages to become stable.
-// ADCSRA |= _BV(ADSC); // Start the ADC
-// while (bit_is_set(ADCSRA,ADSC));
-// wADC = ADCW;
-// t = (wADC - 324.31 ) / 1.22;
-// return (t);
 }
