@@ -8,10 +8,17 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#define TRX_ADDR 0x04
+#define GPS_ADDR 0x06
+#define EPS_ADDR 0x08
+#define CAM_ADDR 0x0A
+#define IMU_ADDR 0x0C
+
 // The I2C bus: This is for V2 Pi's. for V1 Model B, "dev/i2c-0"
 static const char *DEV_NAME = "/dev/i2c-1";
 
 int I2C_BUS;
+int whichDevice;
 
 void startI2C();
 void connectHere(int addr);
@@ -21,9 +28,9 @@ int main (int argc, char **argv) {
   startI2C();
 
   while (1) {
-    int whichDevice = 0;
-    printf("\nTo which device would you like to connect (integer)? ");
-    scanf("%d", &whichDevice);
+    whichDevice = 0;
+    printf("\nTo which device would you like to connect (hex)? 0x");
+    scanf("%x", &whichDevice);
     if (whichDevice < 0) break;
     connectHere(whichDevice);
 
@@ -67,7 +74,7 @@ void connectHere(int addr) {
 } //connect
 
 void sendCommand(int addr, int val) {
-  unsigned char outBuf[16];
+  char outBuf[16];
   outBuf[0] = val;
 
   //sending command to slave
@@ -75,9 +82,12 @@ void sendCommand(int addr, int val) {
   if ( write(I2C_BUS, outBuf, 1) == 1 ) {
     usleep(10000); //required with microcontroller communication
     val = -1;
-    unsigned char inBuf[1];
+    char inBuf[16];
     if ( read(I2C_BUS, inBuf, 1) == 1 ) {
       val = (int)inBuf[0];
+      if (whichDevice == 0x0C && val > 155) {
+	val -= 256;
+      } //if
       printf("Received %d\n", val);
     } else {
       printf("Failed to receieve.\n");
