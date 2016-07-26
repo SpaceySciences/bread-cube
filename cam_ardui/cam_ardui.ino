@@ -1,9 +1,9 @@
 #include <Wire.h>
 
-#define CAM_ADDR 0x02
 //#define TRX_ADDR 0x04
 //#define GPS_ADDR 0x06
 //#define EPS_ADDR 0x08
+#define CAM_ADDR 0x0A
 
 
 int number = 0;
