@@ -168,4 +168,5 @@ void loop() {
     analogWrite(7, 255-255.0/EPSILON*abs(attitudeQuaternion.z - .5));
   else
     analogWrite(7, 0);
+  delay(100);
 }
